@@ -1,6 +1,6 @@
 class Wallet
   def initialize(private_key)
-    @private_key = private_key
+    @private_key = private_key.to_i
   end
 
   def public_key
@@ -51,20 +51,22 @@ class Wallet
 
   class << self
     def load_or_create(name)
-      FileUtils.mkdir_p("keys")
+      keydir = "#{ENV['MELON_ROOT']}/keys"
+      FileUtils.mkdir_p(keydir)
 
       group = ECDSA::Group::Secp256k1
 
       # We first try to load an existing private key.
-      if File.file?("./keys/#{name}.key") == false
+      if File.file?("#{keydir}/#{name}.key") == false
         private_key = 1 + SecureRandom.random_number(group.order - 1)
-        File.write("./keys/#{name}.key", Base58.int_to_base58(private_key))
+        File.write("#{keydir}/#{name}.key", Base58.int_to_base58(private_key))
       end
 
       # The key doesn't exist, we create a new one and store it for later use.
-      private_key = File.read("./keys/#{name}.key").to_i
-
-      raise "Failed loading the private key" if private_key == 0
+      keyfile = "#{keydir}/#{name}.key" 
+      puts keyfile
+      private_key =  File.read(keyfile)
+      raise "Failed loading the private key" if private_key.length == 0
 
       Wallet.new(private_key)
     end
