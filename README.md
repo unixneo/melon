@@ -6,5 +6,5 @@ The goal of this repository is to understand better how blockchains work and how
 Env Vars:
 
 ```command
-export MELON_ROOT=/Users/tim/rails/melon2
+export MELON_ROOT=/path/to/app/root/melon
 ```
