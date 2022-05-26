@@ -2,7 +2,7 @@ class DB
   attr_reader :connection
 
   def initialize
-    @connection = SQLite3::Database.new("#{ENV["MLN_DB_NAME"] || "melon"}.db")
+    @connection = SQLite3::Database.new("#{ENV["MELON_DB_NAME"] || "melon"}.db")
 
     rows = @connection.execute(%(SELECT name FROM sqlite_master WHERE type='table' AND name='blocks';))
 

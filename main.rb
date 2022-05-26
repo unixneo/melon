@@ -96,7 +96,7 @@ when "submit_random_transactions"
       (amount / 100).to_s("F"),
     )
 
-    ENV["MLN_PEERS"].to_s.split(",").each do |peer|
+    ENV["MELON_PEERS"].to_s.split(",").each do |peer|
       response = HTTParty.post("http://#{peer}/transactions/submit",
         body: transaction.to_json,
         headers: { "Content-Type": "application/json" },

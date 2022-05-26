@@ -9,7 +9,7 @@ class Blockchain
   DIFFICULTY_LEVEL = 5
 
   def initialize
-    @peers = ENV["MLN_PEERS"].to_s.split(",")
+    @peers = ENV["MELON_PEERS"].to_s.split(",")
   end
 
   def last_block

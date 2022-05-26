@@ -1,7 +1,7 @@
 class Node < Sinatra::Base
   configure do
     set :logger, $logger
-    set :port, ENV["MLN_PORT"] || 4567
+    set :port, ENV["MELON_PORT"] || 4567
     enable :logging, :dump_errors
   end
 

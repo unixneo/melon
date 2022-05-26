@@ -52,7 +52,11 @@ class Wallet
   class << self
     def load_or_create(name)
       keydir = "#{ENV['MELON_ROOT']}/keys"
-      FileUtils.mkdir_p(keydir)
+      begin 
+        FileUtils.mkdir_p(keydir)
+      rescue => e
+        puts "FileUtils.mkdir_p(keydir) - #{e}"
+      end
 
       group = ECDSA::Group::Secp256k1
 
