@@ -25,6 +25,8 @@ require "./pending_transaction"
 
 $logger = Logger.new(STDOUT)
 
+NEO_DEBUG = true
+
 # No arguments to the command means we'll show the user the list of all commands.
 if ARGV.size == 0
   $logger.info "Welcome to the melon factory 🍈\n\n"
@@ -96,13 +98,17 @@ when "submit_random_transactions"
       (amount / 100).to_s("F"),
     )
     pp transaction
-
+    $logger.info("ENV['MELON_PEERS'] = #{ENV["MELON_PEERS"].to_s.split(",")}") if NEO_DEBUG
     ENV["MELON_PEERS"].to_s.split(",").each do |peer|
-      response = HTTParty.post("http://#{peer}/transactions/submit",
-        body: transaction.to_json,
-        headers: { "Content-Type": "application/json" },
-      )
-
+      
+      begin
+        response = HTTParty.post("http://#{peer}/transactions/submit",
+          body: transaction.to_json,
+          headers: { "Content-Type": "application/json" },
+        )
+      rescue => e
+        $logger.info("ERROR: HTTParty.post(http://#{peer}/transactions/submit: #{e}")
+      end
       if response.code != 200
         $logger.error("Failed submitting transaction: #{response.message}")
       else

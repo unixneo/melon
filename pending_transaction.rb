@@ -1,3 +1,5 @@
+SINGLE_DB_MULTIPLE_MINERS_TEST = true
+
 class PendingTransaction
   class << self
     # Returns one pending transaction.
@@ -18,10 +20,17 @@ class PendingTransaction
     # Adds the transaction to the table of pending transactions unless it's
     # already stored.
     def create(transaction)
-      $db.connection.execute(
-        "INSERT INTO pending_transactions (id, payload) VALUES (?, ?)",
-        [ transaction["id"], transaction.to_json ],
-      )
+      if SINGLE_DB_MULTIPLE_MINERS_TEST
+        $db.connection.execute(
+          "INSERT OR IGNORE INTO pending_transactions (id, payload) VALUES (?, ?)",
+          [ transaction["id"], transaction.to_json ],
+        )
+      else
+        $db.connection.execute(
+          "INSERT INTO pending_transactions (id, payload) VALUES (?, ?)",
+          [ transaction["id"], transaction.to_json ],
+        )
+      end
     end
 
     def delete_by_id(ids)
