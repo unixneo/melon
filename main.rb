@@ -95,6 +95,7 @@ when "submit_random_transactions"
       amount.to_s("F"),
       (amount / 100).to_s("F"),
     )
+    pp transaction
 
     ENV["MELON_PEERS"].to_s.split(",").each do |peer|
       response = HTTParty.post("http://#{peer}/transactions/submit",

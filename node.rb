@@ -8,11 +8,11 @@ class Node < Sinatra::Base
   @@blockchain = Blockchain.new
 
   get "/" do
-    "🍈"
+    "MELON IS HERE"
   end
 
   get "/version" do
-    "0.1.0"
+    "0.1.1"
   end
 
   get "/blocks/last" do

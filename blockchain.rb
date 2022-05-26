@@ -18,7 +18,7 @@ class Blockchain
 
   def save_block(block)
     $db.connection.execute(
-      """INSERT INTO blocks
+      """INSERT OR IGNORE INTO blocks
            (height, previous_block_header_hash, block_header_hash, nonce, time, merkle_root, transactions)
          VALUES (?, ?, ?, ?, ?, ?, ?)""",
       [

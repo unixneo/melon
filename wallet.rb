@@ -68,7 +68,6 @@ class Wallet
 
       # The key doesn't exist, we create a new one and store it for later use.
       keyfile = "#{keydir}/#{name}.key" 
-      puts keyfile
       private_key =  File.read(keyfile)
       raise "Failed loading the private key" if private_key.length == 0
 
