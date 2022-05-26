@@ -1,27 +1,31 @@
-require "sqlite3"
-require "pry"
-require "merkle_tree"
-require "date"
-require "digest"
-require "json"
-require "ecdsa"
-require "securerandom"
-require "fileutils"
-require "base58"
-require "bigdecimal"
-require "sinatra/base"
-require "logger"
-require "httparty"
 
-require "./db"
-require "./block"
-require "./blockchain"
-require "./mining"
-require "./wallet"
-require "./transaction_builder"
-require "./wallet_transfer"
-require "./node"
-require "./pending_transaction"
+ [ "sqlite3",
+    "pry",
+    "merkle_tree",
+    "date",
+    "digest",
+    "json",
+    "ecdsa",
+    "securerandom",
+    "fileutils",
+    "base58",
+    "bigdecimal",
+    "sinatra/base",
+    "logger",
+    "httparty",
+    "./db",
+    "./block",
+    "./blockchain",
+    "./mining",
+    "./wallet",
+    "./transaction_builder",
+    "./wallet_transfer",
+    "./node",
+    "./pending_transaction",
+].each do |lib|
+  require lib
+end
+
 
 $logger = Logger.new(STDOUT)
 
@@ -40,11 +44,12 @@ if ARGV.size == 0
 end
 
 # Run the required command.
+
 case ARGV.first.to_s.downcase
 when "node"
-  $db = DB.new
+  $db = Melon::DB.new
 
-  blockchain = Blockchain.new
+  blockchain = Melon::Blockchain.new
 
   Thread.new do
     begin
@@ -57,12 +62,12 @@ when "node"
     end
   end
 
-  Node.run!
+  Melon::Node.run!
 
 
 
 when "mine"
-  $db = DB.new
+  $db = Melon::DB.new
 
   # The mining process starts in a thread. This approach isn't the most elegant
   # but it makes it possible to have the entire application run together which
@@ -70,22 +75,22 @@ when "mine"
   Thread.new do
     begin
       sleep 2 # A small delay wil lensure Sinatra starts successfully
-      Mining.start
+      Melon::Mining.start
     rescue => e
       $logger.error e
     end
   end
 
-  Node.run!
+  Melon::Node.run!
 
 when "pry"
-  $db = DB.new
-  blockchain = Blockchain.new
+  $db = Melon::DB.new
+  blockchain = Melon::Blockchain.new
 
   binding.pry
 
 when "submit_random_transactions"
-  mining_wallet = Wallet.load_or_create("mining")
+  mining_wallet = Melon::Wallet.load_or_create("mining")
 
   loop do
     # The destination address is random as we're only testing.
