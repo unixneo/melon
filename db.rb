@@ -3,7 +3,7 @@ class DB
 
   def initialize
      
-    db_name = "#{ENV['MELON_DB_NAME'] || 'melon'}_#{ENV['MELON_PORT'] || '4567'}.rb"
+    db_name = "#{ENV['MELON_DB_NAME'] || 'melon'}_#{ENV['MELON_PORT'] || '4567'}.db"
     @connection = SQLite3::Database.new(db_name)
 
     rows = @connection.execute(%(SELECT name FROM sqlite_master WHERE type='table' AND name='blocks';))
