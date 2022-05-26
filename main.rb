@@ -22,8 +22,8 @@
     "./wallet_transfer",
     "./node",
     "./pending_transaction",
-].each do |lib|
-  require lib
+].each do |lib_file|
+  require lib_file
 end
 
 
