@@ -6,5 +6,7 @@ The goal of this repository is to understand better how blockchains work and how
 Env Vars:
 
 ```command
-export MELON_ROOT=/path/to/app/root/melon
+export MELON_ROOT=/path/to/app/root/melon          # example only
+export MELON_PORT=4567
+export MELON_PEERS=localhost:4567,localhost,4568   # example only
 ```
