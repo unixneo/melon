@@ -14,6 +14,7 @@ export MELON_PEERS=localhost:4567,localhost,4568   # example only
 
 ## Known Issues, Unknowns or Bugs:
 
+- Mining rewards appear to be broken.  Need to confirm this, but it appears that mining reward transactions are provided on the same reward tranactions, which provides an infinate loop of miners getting rewarded on their mining rewards and so block are infiniately added to the Melon blockchain for each active minor.
 - Prototype keeps mining new blocks when there are no transactions
 - Not sure why the blockchain was stored in a DB in the original code (each block is a row in a db), need to check how security is done
 - Not clear how the pending transaction DB table works
